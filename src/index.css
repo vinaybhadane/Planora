@@ -1,0 +1,252 @@
+:root {
+  /* Planora Design Tokens — Authoritative, Elegant, Trustworthy, Modern */
+
+  /* Surfaces */
+  --color-bg-primary: #F8FAFC;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-tertiary: #F1F5F9;
+  --color-bg-emphasis: #EEF2FF;
+  --color-bg-card: #FFFFFF;
+  --color-bg-overlay: rgba(15, 23, 42, 0.6);
+
+  /* Text */
+  --color-text-primary: #0F172A;
+  --color-text-secondary: #334155;
+  --color-text-muted: #64748B;
+  --color-text-inverse: #FFFFFF;
+
+  /* Borders */
+  --color-border: #E2E8F0;
+  --color-border-strong: #CBD5E1;
+  --color-border-focus: #4F46E5;
+
+  /* Brand Colors */
+  --color-brand: #4F46E5;
+  --color-brand-hover: #4338CA;
+  --color-brand-accent: #6366F1;
+  --color-brand-light: #EEF2FF;
+  --color-brand-mid: #C7D2FE;
+  --color-brand-dark: #1E1B4B;
+
+  /* Event Status & Health (Accessible, High Contrast) */
+  --color-status-success: #059669;
+  --color-status-success-bg: #ECFDF5;
+  --color-status-success-border: #A7F3D0;
+
+  --color-status-warning: #D97706;
+  --color-status-warning-bg: #FFFBEB;
+  --color-status-warning-border: #FDE68A;
+
+  --color-status-danger: #DC2626;
+  --color-status-danger-bg: #FEF2F2;
+  --color-status-danger-border: #FECACA;
+
+  --color-status-info: #0284C7;
+  --color-status-info-bg: #F0F9FF;
+  --color-status-info-border: #BAE6FD;
+
+  /* Legacy aliases for backward compatibility */
+  --color-severity-high: var(--color-status-danger);
+  --color-severity-high-bg: var(--color-status-danger-bg);
+  --color-severity-high-border: var(--color-status-danger-border);
+
+  --color-severity-caution: var(--color-status-warning);
+  --color-severity-caution-bg: var(--color-status-warning-bg);
+  --color-severity-caution-border: var(--color-status-warning-border);
+
+  --color-severity-info: var(--color-status-info);
+  --color-severity-info-bg: var(--color-status-info-bg);
+  --color-severity-info-border: var(--color-status-info-border);
+
+  --color-verified: var(--color-status-success);
+  --color-verified-bg: var(--color-status-success-bg);
+  --color-approximate: var(--color-status-warning);
+  --color-approximate-bg: var(--color-status-warning-bg);
+  --color-multiple: #6366F1;
+  --color-multiple-bg: #EEF2FF;
+  --color-unverified: var(--color-status-danger);
+  --color-unverified-bg: var(--color-status-danger-bg);
+
+  /* Typography */
+  --font-family-base: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-family-serif: 'Georgia', 'Times New Roman', serif;
+
+  /* Spacing Scale */
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-5: 1.25rem;  /* 20px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-10: 2.5rem;  /* 40px */
+  --spacing-12: 3rem;    /* 48px */
+  --spacing-16: 4rem;    /* 64px */
+
+  /* Geometry / Radii */
+  --border-radius-sm: 0.375rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+  --border-radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root, main {
+  min-height: 100vh;
+}
+
+/* ── Accessibility: Focus Rings & Skip Link ────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: var(--spacing-4);
+  background: var(--color-brand);
+  color: #FFFFFF;
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  z-index: 99999;
+  text-decoration: none;
+  box-shadow: var(--shadow-lg);
+  transition: top 0.15s ease-in-out;
+}
+
+.skip-link:focus {
+  top: var(--spacing-4);
+}
+
+/* ── Global Typography Utilities ────────────────────────────────────────── */
+.text-h1 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+}
+
+.text-h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
+  color: var(--color-text-primary);
+}
+
+.text-h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+.text-body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.text-body-sm {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.text-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+}
+
+/* ── Global Button Styles ──────────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  background-color: var(--color-brand);
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--color-brand-hover);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-strong);
+}
+
+.btn-secondary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

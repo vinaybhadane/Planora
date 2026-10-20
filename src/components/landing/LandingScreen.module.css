@@ -1,0 +1,398 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-8) var(--spacing-6);
+  gap: var(--spacing-10);
+}
+
+.header {
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.badgeContainer {
+  margin-bottom: var(--spacing-1);
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: var(--border-radius-full);
+  background-color: var(--color-brand-light);
+  color: var(--color-brand);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: 1px solid var(--color-brand-mid);
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-text-primary);
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+/* Config Card */
+.configCard {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-8);
+  box-shadow: var(--shadow-sm);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-6);
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.fieldLabel {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* Event Type Grid */
+.eventTypeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.eventTypeCard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease-in-out;
+}
+
+.eventTypeCard:hover {
+  border-color: var(--color-border-strong);
+  background-color: var(--color-bg-primary);
+}
+
+.cardActive {
+  border-color: var(--color-brand);
+  background-color: var(--color-brand-light);
+  box-shadow: 0 0 0 1px var(--color-brand);
+}
+
+.typeIcon {
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.typeContent {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.typeLabel {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.typeTagline {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* 2 Column Grid */
+.gridTwoCols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-6);
+}
+
+@media (max-width: 768px) {
+  .gridTwoCols {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.inputPrefix {
+  position: absolute;
+  left: var(--spacing-3);
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.inputSuffix {
+  position: absolute;
+  right: var(--spacing-3);
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.textInput {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  font-size: 0.9375rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.inputWithPrefix {
+  padding-left: 1.75rem;
+}
+
+.textInput:focus {
+  outline: none;
+  border-color: var(--color-brand);
+  box-shadow: 0 0 0 3px var(--color-brand-light);
+}
+
+.presetChips {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-1);
+}
+
+.chip {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: var(--border-radius-full);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.chip:hover {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-strong);
+}
+
+.chipActive {
+  background-color: var(--color-brand-light);
+  color: var(--color-brand);
+  border-color: var(--color-brand-mid);
+}
+
+/* Vibe Grid */
+.vibeGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--spacing-3);
+}
+
+.vibeCard {
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-3);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.vibeCard:hover {
+  border-color: var(--color-border-strong);
+  background-color: var(--color-bg-primary);
+}
+
+.vibeActive {
+  border-color: var(--color-brand);
+  background-color: var(--color-brand-light);
+  box-shadow: 0 0 0 1px var(--color-brand);
+}
+
+.vibeColorDots {
+  display: flex;
+  gap: 4px;
+  margin-bottom: var(--spacing-2);
+}
+
+.colorDot {
+  width: 14px;
+  height: 14px;
+  border-radius: var(--border-radius-full);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.vibeName {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.vibeDesc {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* Submit Row */
+.submitRow {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.submitBtn {
+  font-size: 1rem;
+  padding: 0.8rem 2rem;
+  border-radius: var(--border-radius-lg);
+}
+
+/* Turnkey Demo Showcase */
+.demoSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.demoHeader {
+  text-align: center;
+}
+
+.demoTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.demoSubtitle {
+  font-size: 0.9375rem;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+.demoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.demoCard {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.demoCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.demoIcon {
+  font-size: 2rem;
+}
+
+.demoName {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.demoMeta {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-brand);
+}
+
+.demoDesc {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  flex-grow: 1;
+  margin-bottom: var(--spacing-4);
+}
+
+.demoBtn {
+  width: 100%;
+}
+
+/* Feature Pillars */
+.pillarsSection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--spacing-6);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid var(--color-border);
+}
+
+.pillar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.pillarIcon {
+  font-size: 1.75rem;
+}
+
+.pillarTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.pillarText {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,227 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-bg-secondary);
+  border-left: 1px solid var(--color-border);
+  overflow-y: auto;
+}
+
+.toolHeader {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg-primary);
+}
+
+.toolTabs {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.toolTab {
+  flex: 1;
+  padding: var(--spacing-2) var(--spacing-3);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.toolTab:hover {
+  background-color: var(--color-bg-tertiary);
+}
+
+.toolTabActive {
+  background-color: var(--color-brand-light);
+  border-color: var(--color-brand);
+  color: var(--color-brand);
+}
+
+.toolBody {
+  padding: var(--spacing-6);
+  flex-grow: 1;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+}
+
+.simHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.simTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.resetBtn {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-brand);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.simDesc {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+}
+
+.sliderBox {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.sliderLabels {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sliderTitle {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+}
+
+.sliderValue {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-brand);
+}
+
+.rangeInput {
+  width: 100%;
+  cursor: pointer;
+}
+
+.sliderRangeLimits {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6875rem;
+  color: var(--color-text-muted);
+}
+
+.allocationsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.subHeading {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.allocRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.allocTop {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+}
+
+.allocName {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.allocAmount {
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.allocTrack {
+  height: 6px;
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+}
+
+.allocFill {
+  height: 100%;
+  background-color: var(--color-brand);
+}
+
+.allocFillContingency {
+  height: 100%;
+  background-color: var(--color-status-warning);
+}
+
+/* Clauses list */
+.clausesList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.clauseCard {
+  background-color: var(--color-bg-primary);
+  border-left: 3px solid var(--color-status-warning);
+  border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+  padding: var(--spacing-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.clauseCategory {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color-brand);
+  text-transform: uppercase;
+}
+
+.clauseDetail {
+  font-size: 0.8125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* Export Tool */
+.exportActions {
+  display: flex;
+  gap: var(--spacing-3);
+}
+
+.markdownPreview {
+  background-color: var(--color-bg-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-4);
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.previewCode {
+  font-family: monospace;
+  font-size: 0.75rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}

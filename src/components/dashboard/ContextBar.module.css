@@ -1,0 +1,94 @@
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-6);
+  background-color: var(--color-bg-secondary);
+  border-bottom: 1px solid var(--color-border);
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  min-width: 250px;
+}
+
+.typeBadge {
+  background-color: var(--color-brand-light);
+  color: var(--color-brand);
+  font-size: 0.6875rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--border-radius-sm);
+  border: 1px solid var(--color-brand-mid);
+}
+
+.eventName {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 380px;
+}
+
+.centerMetrics {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  background-color: var(--color-bg-primary);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--color-border);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.metricLabel {
+  font-size: 0.6875rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.metricValue {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.metricDivider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--color-border);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+@media (max-width: 768px) {
+  .bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .centerMetrics {
+    width: 100%;
+    justify-content: space-around;
+  }
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
