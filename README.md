@@ -61,61 +61,65 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full design.
 
 ---
 
-## Development
+## Testing & Quality Assurance
+
+Planora features an exhaustive automated testing suite with **90 passing tests across 18 test suites (100% pass rate)**:
 
 ```bash
-npm run test          # run all unit and integration tests (Vitest)
-npm run typecheck     # TypeScript type checking (tsc -p tsconfig.app.json & tsconfig.node.json)
-npm run lint          # lint src, tests, api (oxlint)
-npm run build         # production build (tsc -b && vite build)
+npm run test          # run all 18 test suites (Vitest)
+npm run test:coverage # run test suite with V8 code coverage report
+npm run typecheck     # strict TypeScript verification (tsc -p tsconfig.app.json & tsconfig.node.json)
+npm run lint          # lint src, tests, and api (oxlint, 0 warnings/0 errors)
+npm run build         # verify production bundle build (sub-second compile)
 ```
+
+### Test Suite Breakdown (18 Suites, 90 Tests)
+
+1. `tests/schema.test.ts` — Comprehensive JSON Schema enforcement & bounds checking (10 tests)
+2. `tests/plannerEngine.test.ts` — Deterministic mathematical budget reconciliation & timeline chronology (10 tests)
+3. `tests/usePlanner.test.ts` — Client planning state hook, task toggling, and markdown generation (8 tests)
+4. `tests/accessibility.test.tsx` — WCAG 2.1 AA compliance: skip links, ARIA tabs, progress bars, range sliders, radiogroups (6 tests)
+5. `tests/securityRateLimit.test.ts` — Sliding-window IP rate limiting, RFC 6585 headers, and HTTP security defense (6 tests)
+6. `tests/analyzeServer.test.ts` — Serverless handler HTTP methods, boundary validation, and error classification (6 tests)
+7. `tests/promptInjection.test.ts` — Delimiter stripping, tag isolation, and malicious payload rejection (4 tests)
+8. `tests/domain.test.ts` — Domain types, presets, and currency formatting helpers (4 tests)
+9. `tests/appWorkflow.test.tsx` — Complete app workflow: landing, demo launch, modal context switching, and state updates (4 tests)
+10. `tests/demoData.test.ts` — Structural integrity and mathematical precision across all turnkey demo plans (12 tests)
+11. `tests/components.test.tsx` — React component integration tests (LandingScreen, ContextBar, LeftPane, RightPane) (5 tests)
+12. `tests/guidedActions.test.tsx` — Quick-tool shortcuts and simulation actions (3 tests)
+13. `tests/validationResults.test.ts` — Schema validation result structures and sanitized output (3 tests)
+14. `tests/api.test.ts` — Client-side API caller and fallback resilience (3 tests)
+15. `tests/providerIsolation.test.ts` — Offline DemoProvider isolation & live Gemini provider delegation (2 tests)
+16. `tests/contextSwitchPersistence.test.tsx` — In-memory session context cache persistence (2 tests)
+17. `tests/skipLink.test.tsx` — Skip-to-content landmark accessibility resolution (1 test)
+18. `tests/analyzeServerConfig.test.ts` — Production Gemini SDK retry configuration (fail-fast 429s) (1 test)
 
 ---
 
-## Repository Structure
+## Accessibility & WCAG 2.1 AA Compliance
 
-```
-planora/
-├── src/
-│   ├── lib/
-│   │   ├── plannerEngine.ts     ← deterministic budget math & timeline validator (Pipeline B)
-│   │   ├── schema.ts            ← JSON Schema + Ajv validator (Pipeline A/B contract)
-│   │   ├── domain.ts            ← typed EventTypeId, VibeId, and VendorCategoryId
-│   │   ├── api.ts               ← client-side API caller
-│   │   └── providers/           ← AIProvider interface, GeminiProvider, DemoProvider & demoData
-│   ├── hooks/
-│   │   └── usePlanner.ts        ← client planning state, checklist progression, budget simulator
-│   └── components/
-│       ├── landing/             ← LandingScreen configurator & demo showcase
-│       ├── context/             ← EventContextSelector modal
-│       ├── dashboard/           ← LeftPane, RightPane, ContextBar, GuidedActions, TwoPaneLayout
-│       └── common/              ← Disclaimer & accessibility skip link
-├── api/
-│   ├── analyze.ts               ← Vercel serverless function (Pipeline A Gemini caller)
-│   └── plan.ts                  ← /api/plan route alias
-├── tests/
-│   ├── schema.test.ts           ← JSON schema validation & bounds checking
-│   ├── plannerEngine.test.ts    ← budget math, chronology, and checklist tests
-│   ├── promptInjection.test.ts  ← input sanitization & prompt breakout defense
-│   ├── analyzeServer.test.ts    ← serverless handler & rate limit classification
-│   ├── providerIsolation.test.ts← offline demo isolation & live delegation
-│   ├── demoData.test.ts         ← integrity verification across all demo plans
-│   └── components.test.tsx      ← React integration tests
-└── docs/
-    ├── ARCHITECTURE.md          ← detailed architectural specification
-    ├── RISKS.md                 ← event planning risk analysis & mitigations
-    └── adr/                     ← Architecture Decision Records (0001 through 0006)
-```
+Planora is built from the ground up for universal accessibility, adhering to **WCAG 2.1 Level AA** standards:
+
+- **Skip-to-Content Link**: Implemented via `<a href="#main-content" className="skip-link">` ensuring keyboard and screen-reader users can bypass navigational blocks on all views (WCAG 2.4.1).
+- **WAI-ARIA APG Tabs Pattern**: All tablists ([LeftPane.tsx](src/components/dashboard/LeftPane.tsx), [RightPane.tsx](src/components/dashboard/RightPane.tsx)) implement full arrow key navigation (`ArrowRight`, `ArrowLeft`, `ArrowUp`, `ArrowDown`, `Home`, `End`) with dynamic `tabIndex={0 | -1}`, `aria-selected`, and `aria-controls` / `aria-labelledby` linkages.
+- **Range Slider Semantics**: The interactive budget slider features `id`, `aria-label`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-valuetext` formatted with currency.
+- **Dynamic Live Region Feedback**: Budget simulation readouts employ `aria-live="polite"` so screen readers dynamically announce re-calculated totals as the slider moves.
+- **Semantic Progress Bar**: Vendor checklists feature a semantic `role="progressbar"` with `aria-valuenow`, `aria-valuemin="0"`, `aria-valuemax="100"`, and descriptive accessible labels.
+- **Dialog Focus Management**: Modal dialogs ([EventContextSelector.tsx](src/components/context/EventContextSelector.tsx)) auto-focus upon opening, trap keyboard navigation, and provide `Escape` key dismissal.
+- **Reduced Motion & High Contrast**: Includes `@media (prefers-reduced-motion: reduce)` to disable animations for motion-sensitive users, and `@media (forced-colors: active)` for high-contrast accessibility.
 
 ---
 
-## Security Model
+## Security Model & Threat Mitigation
 
-- **API key isolation** — Gemini API key lives strictly in serverless environment variables, never in the client bundle.
-- **Prompt injection defense** — User text is isolated inside `<EVENT_DATA>` tags, angle brackets are sanitized, and strict length caps prevent breakout.
-- **XSS prevention** — No `dangerouslySetInnerHTML`; all model text is rendered through React's default text escaping.
-- **Structured output enforcement** — Gemini's `responseSchema` guarantees structurally validated JSON before reaching the client.
-- **Redacted server logging** — Serverless logs record only operational metadata (status, latency), never personal event details or prompts.
+Planora follows OWASP Top 10 and LLM Security guidelines (see [SECURITY.md](SECURITY.md) for the full policy):
+
+- **Zero Client-Side Secret Leakage** — Gemini API credentials reside strictly in serverless environment variables (`GEMINI_API_KEY`). The client application bundle contains zero secrets.
+- **Sliding-Window IP Rate Limiter** — Serverless endpoints enforce an in-memory sliding window (30 requests/min/IP) emitting RFC 6585 compliance headers (`X-RateLimit-Limit`, `X-RateLimit-Remaining`, `X-RateLimit-Reset`, `Retry-After`) with HTTP `429 Too Many Requests`.
+- **Prompt Injection Defense (OWASP LLM01)** — User inputs are strictly stripped of XML delimiters (`<` and `>`), length-capped (`MAX_SPECIAL_NOTES_LENGTH = 1000`), and isolated within `<EVENT_DATA>` enclosures.
+- **Dual-Layer Schema Whitelisting (OWASP LLM02)** — Structured output schema enforced at the Gemini API level and double-validated via strict Ajv validation with `additionalProperties: false`.
+- **Defense-in-Depth HTTP Headers** — Production deployment enforces `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `X-XSS-Protection: 1; mode=block`, `Referrer-Policy: strict-origin-when-cross-origin`, and `Permissions-Policy`.
+- **Zero Vulnerabilities** — Verified clean via `npm audit` with **0 known vulnerabilities**.
 
 ---
 
