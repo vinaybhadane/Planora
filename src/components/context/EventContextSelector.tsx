@@ -5,7 +5,7 @@
  * mid-session while utilizing in-memory session caching for instant responsiveness.
  */
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { EventTypeId, VibeId } from '../../lib/domain';
 import { EVENT_TYPE_OPTIONS, VIBE_OPTIONS } from '../../lib/domain';
 import styles from './EventContextSelector.module.css';
@@ -56,6 +56,12 @@ export function EventContextSelector({
     });
   };
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    modalRef.current?.focus();
+  }, []);
+
   return (
     <div
       className={styles.overlay}
@@ -69,7 +75,12 @@ export function EventContextSelector({
         if (e.target === e.currentTarget) onCancel();
       }}
     >
-      <div className={styles.modal}>
+      <div
+        ref={modalRef}
+        tabIndex={-1}
+        style={{ outline: 'none' }}
+        className={styles.modal}
+      >
         <div className={styles.modalHeader}>
           <h2 id="context-selector-title" className={styles.title}>
             Switch Event Context
@@ -168,7 +179,11 @@ export function EventContextSelector({
             <button type="button" className="btn-secondary" onClick={onCancel}>
               Cancel
             </button>
-            <button type="submit" className="btn-primary">
+            <button
+              type="submit"
+              className="btn-primary"
+              aria-label="Apply context changes and update plan"
+            >
               Apply & Update Plan
             </button>
           </div>

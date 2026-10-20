@@ -44,6 +44,34 @@ export function LeftPane({
 }: LeftPaneProps) {
   const [copiedHex, setCopiedHex] = useState<string | null>(null);
 
+  const TAB_ORDER: DashboardTab[] = ['overview', 'budget', 'timeline', 'vendors', 'ideas', 'questions'];
+
+  const handleTabKeyDown = (e: React.KeyboardEvent) => {
+    const currentIndex = TAB_ORDER.indexOf(activeTab);
+    if (currentIndex === -1) return;
+
+    let targetIndex = -1;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      targetIndex = (currentIndex + 1) % TAB_ORDER.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      targetIndex = (currentIndex - 1 + TAB_ORDER.length) % TAB_ORDER.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      targetIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      targetIndex = TAB_ORDER.length - 1;
+    }
+
+    if (targetIndex !== -1) {
+      const nextTab = TAB_ORDER[targetIndex];
+      onTabChange(nextTab);
+      document.getElementById(`tab-${nextTab}`)?.focus();
+    }
+  };
+
   const copyToClipboard = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
     setCopiedHex(id);
@@ -53,7 +81,12 @@ export function LeftPane({
   return (
     <div className={styles.container}>
       {/* Tab Navigation */}
-      <nav className={styles.tabNav} role="tablist" aria-label="Planning Sections">
+      <nav
+        className={styles.tabNav}
+        role="tablist"
+        aria-label="Planning Sections"
+        onKeyDown={handleTabKeyDown}
+      >
         <button
           type="button"
           role="tab"

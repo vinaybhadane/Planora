@@ -12,6 +12,8 @@ import type { PlanResult } from '../../lib/schema';
 import { formatCurrency } from '../../lib/domain';
 import styles from './RightPane.module.css';
 
+type ToolTab = 'simulator' | 'radar' | 'export';
+
 interface RightPaneProps {
   plan: PlanResult;
   customBudget: number | null;
@@ -59,11 +61,44 @@ export function RightPane({
     }))
   );
 
+  const TOOL_ORDER: ToolTab[] = ['simulator', 'radar', 'export'];
+
+  const handleToolKeyDown = (e: React.KeyboardEvent) => {
+    const currentIndex = TOOL_ORDER.indexOf(activeTool);
+    if (currentIndex === -1) return;
+
+    let targetIndex = -1;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      targetIndex = (currentIndex + 1) % TOOL_ORDER.length;
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      targetIndex = (currentIndex - 1 + TOOL_ORDER.length) % TOOL_ORDER.length;
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      targetIndex = 0;
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      targetIndex = TOOL_ORDER.length - 1;
+    }
+
+    if (targetIndex !== -1) {
+      const nextTool = TOOL_ORDER[targetIndex];
+      setActiveTool(nextTool);
+      document.getElementById(`tool-tab-${nextTool}`)?.focus();
+    }
+  };
+
   return (
     <aside className={styles.container} aria-label="Interactive Planning Tools">
       {/* Sub-tool switcher */}
       <div className={styles.toolHeader}>
-        <div className={styles.toolTabs} role="tablist" aria-label="Planning Utilities">
+        <div
+          className={styles.toolTabs}
+          role="tablist"
+          aria-label="Planning Utilities"
+          onKeyDown={handleToolKeyDown}
+        >
           <button
             type="button"
             role="tab"
@@ -137,7 +172,7 @@ export function RightPane({
                 <label htmlFor="budget-simulator-range" className={styles.sliderTitle}>
                   Simulated Total
                 </label>
-                <span className={styles.sliderValue}>
+                <span className={styles.sliderValue} aria-live="polite">
                   {formatCurrency(currentTotal, plan.currency)}
                 </span>
               </div>

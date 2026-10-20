@@ -46,6 +46,69 @@ export const MAX_BUDGET = 25000000;
 export const MIN_GUEST_COUNT = 1;
 export const MAX_GUEST_COUNT = 50000;
 
+// Rate limiting parameters (30 requests per minute per IP)
+export const RATE_LIMIT_WINDOW_MS = 60 * 1000;
+export const RATE_LIMIT_MAX_REQUESTS = 30;
+
+interface RateLimitEntry {
+  count: number;
+  resetTime: number;
+}
+
+const rateLimitStore = new Map<string, RateLimitEntry>();
+
+export function getClientIp(req: VercelRequest): string {
+  const forwarded = req.headers?.['x-forwarded-for'];
+  if (typeof forwarded === 'string') {
+    return forwarded.split(',')[0].trim();
+  }
+  const realIp = req.headers?.['x-real-ip'];
+  if (typeof realIp === 'string') {
+    return realIp.trim();
+  }
+  return req.socket?.remoteAddress || '127.0.0.1';
+}
+
+export function checkRateLimit(ip: string): {
+  allowed: boolean;
+  remaining: number;
+  resetSeconds: number;
+} {
+  const now = Date.now();
+  const entry = rateLimitStore.get(ip);
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitStore.set(ip, {
+      count: 1,
+      resetTime: now + RATE_LIMIT_WINDOW_MS,
+    });
+    return {
+      allowed: true,
+      remaining: RATE_LIMIT_MAX_REQUESTS - 1,
+      resetSeconds: Math.ceil(RATE_LIMIT_WINDOW_MS / 1000),
+    };
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return {
+      allowed: false,
+      remaining: 0,
+      resetSeconds: Math.ceil((entry.resetTime - now) / 1000),
+    };
+  }
+
+  entry.count += 1;
+  return {
+    allowed: true,
+    remaining: RATE_LIMIT_MAX_REQUESTS - entry.count,
+    resetSeconds: Math.ceil((entry.resetTime - now) / 1000),
+  };
+}
+
+export function resetRateLimiterForTesting(): void {
+  rateLimitStore.clear();
+}
+
 // ---------------------------------------------------------------------------
 // Gemini Client Singleton
 // ---------------------------------------------------------------------------
@@ -216,11 +279,13 @@ ${params.specialNotes ? params.specialNotes.replace(/[<>]/g, '').slice(0, MAX_SP
 // ---------------------------------------------------------------------------
 
 export default async function handler(req: VercelRequest, res: VercelResponse): Promise<void> {
-  // CORS configuration
+  // CORS and Security Headers
   const allowedOrigin = process.env.ALLOWED_ORIGIN ?? '*';
   res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('X-Content-Type-Options', 'nosniff');
+  res.setHeader('X-Frame-Options', 'DENY');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -229,6 +294,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
 
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'Method Not Allowed' });
+    return;
+  }
+
+  // Rate Limiting Enforcement
+  const clientIp = getClientIp(req);
+  const rateLimit = checkRateLimit(clientIp);
+  res.setHeader('X-RateLimit-Limit', String(RATE_LIMIT_MAX_REQUESTS));
+  res.setHeader('X-RateLimit-Remaining', String(rateLimit.remaining));
+  res.setHeader('X-RateLimit-Reset', String(rateLimit.resetSeconds));
+
+  if (!rateLimit.allowed) {
+    res.setHeader('Retry-After', String(rateLimit.resetSeconds));
+    res.status(429).json({
+      error: 'Too Many Requests: Rate limit exceeded. Please wait a moment before generating another plan.',
+    });
     return;
   }
 
