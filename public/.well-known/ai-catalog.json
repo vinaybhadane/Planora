@@ -2,13 +2,14 @@
   "specVersion": "1.0",
   "entries": [
     {
-      "identifier": "urn:air:contextualis:navigator:legal-intelligence",
-      "displayName": "Contextualis Legal Document Navigator",
+      "identifier": "urn:planora:assistant:event-planning",
+      "displayName": "Planora GenAI Event Planning Assistant",
       "type": "application/mcp-server-card+json",
       "url": "/",
       "representativeQueries": [
-        "analyze lease agreement",
-        "review financial obligations"
+        "organize wedding budget and timeline",
+        "plan milestone birthday party",
+        "create community festival vendor checklist"
       ]
     }
   ]

@@ -1,6 +1,6 @@
-# Contextualis
+# Planora
 
-> Context-aware legal document intelligence and evidence navigation
+> GenAI-powered planning assistant for organizing weddings, milestone birthdays, and community events with budgets, phased timelines, vendor checklists, and personalized creative concepts.
 
-- [Contextualis](/)
-- [Demo](/)
+- [Planora Application](/)
+- [Turnkey Demos](/)
