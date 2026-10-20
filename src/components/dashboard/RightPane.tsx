@@ -63,9 +63,14 @@ export function RightPane({
     <aside className={styles.container} aria-label="Interactive Planning Tools">
       {/* Sub-tool switcher */}
       <div className={styles.toolHeader}>
-        <div className={styles.toolTabs}>
+        <div className={styles.toolTabs} role="tablist" aria-label="Planning Utilities">
           <button
             type="button"
+            role="tab"
+            id="tool-tab-simulator"
+            aria-selected={activeTool === 'simulator'}
+            aria-controls="tool-panel-simulator"
+            tabIndex={activeTool === 'simulator' ? 0 : -1}
             className={`${styles.toolTab} ${activeTool === 'simulator' ? styles.toolTabActive : ''}`}
             onClick={() => setActiveTool('simulator')}
           >
@@ -73,6 +78,11 @@ export function RightPane({
           </button>
           <button
             type="button"
+            role="tab"
+            id="tool-tab-radar"
+            aria-selected={activeTool === 'radar'}
+            aria-controls="tool-panel-radar"
+            tabIndex={activeTool === 'radar' ? 0 : -1}
             className={`${styles.toolTab} ${activeTool === 'radar' ? styles.toolTabActive : ''}`}
             onClick={() => setActiveTool('radar')}
           >
@@ -80,6 +90,11 @@ export function RightPane({
           </button>
           <button
             type="button"
+            role="tab"
+            id="tool-tab-export"
+            aria-selected={activeTool === 'export'}
+            aria-controls="tool-panel-export"
+            tabIndex={activeTool === 'export' ? 0 : -1}
             className={`${styles.toolTab} ${activeTool === 'export' ? styles.toolTabActive : ''}`}
             onClick={() => setActiveTool('export')}
           >
@@ -88,7 +103,13 @@ export function RightPane({
         </div>
       </div>
 
-      <div className={styles.toolBody}>
+      <div
+        className={styles.toolBody}
+        role="tabpanel"
+        id={`tool-panel-${activeTool}`}
+        aria-labelledby={`tool-tab-${activeTool}`}
+        tabIndex={0}
+      >
         {/* TOOL 1: BUDGET SIMULATOR */}
         {activeTool === 'simulator' && (
           <div className={styles.section}>
@@ -100,6 +121,7 @@ export function RightPane({
                   className={styles.resetBtn}
                   onClick={handleResetBudget}
                   title="Reset to original generated budget"
+                  aria-label="Reset to original generated budget"
                 >
                   Reset
                 </button>
@@ -112,17 +134,25 @@ export function RightPane({
             {/* Total Budget Slider */}
             <div className={styles.sliderBox}>
               <div className={styles.sliderLabels}>
-                <span className={styles.sliderTitle}>Simulated Total</span>
+                <label htmlFor="budget-simulator-range" className={styles.sliderTitle}>
+                  Simulated Total
+                </label>
                 <span className={styles.sliderValue}>
                   {formatCurrency(currentTotal, plan.currency)}
                 </span>
               </div>
               <input
+                id="budget-simulator-range"
                 type="range"
+                aria-label="Simulated Total Budget"
                 min={Math.round(plan.total_budget * 0.5)}
                 max={Math.round(plan.total_budget * 1.8)}
                 step={250}
                 value={currentTotal}
+                aria-valuenow={currentTotal}
+                aria-valuemin={Math.round(plan.total_budget * 0.5)}
+                aria-valuemax={Math.round(plan.total_budget * 1.8)}
+                aria-valuetext={formatCurrency(currentTotal, plan.currency)}
                 onChange={handleSliderChange}
                 className={styles.rangeInput}
               />
@@ -211,6 +241,7 @@ export function RightPane({
                 type="button"
                 className="btn-primary"
                 onClick={handleCopyMarkdown}
+                aria-label="Copy markdown plan to clipboard"
               >
                 {copied ? '✅ Markdown Copied!' : '📋 Copy as Markdown'}
               </button>
@@ -218,6 +249,7 @@ export function RightPane({
                 type="button"
                 className="btn-secondary"
                 onClick={onExport}
+                aria-label="Print run of show planning dossier"
               >
                 🖨️ Print Run of Show
               </button>

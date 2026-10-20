@@ -57,7 +57,10 @@ export function LeftPane({
         <button
           type="button"
           role="tab"
+          id="tab-overview"
           aria-selected={activeTab === 'overview'}
+          aria-controls="panel-overview"
+          tabIndex={activeTab === 'overview' ? 0 : -1}
           className={`${styles.tabBtn} ${activeTab === 'overview' ? styles.tabActive : ''}`}
           onClick={() => onTabChange('overview')}
         >
@@ -66,7 +69,10 @@ export function LeftPane({
         <button
           type="button"
           role="tab"
+          id="tab-budget"
           aria-selected={activeTab === 'budget'}
+          aria-controls="panel-budget"
+          tabIndex={activeTab === 'budget' ? 0 : -1}
           className={`${styles.tabBtn} ${activeTab === 'budget' ? styles.tabActive : ''}`}
           onClick={() => onTabChange('budget')}
         >
@@ -75,7 +81,10 @@ export function LeftPane({
         <button
           type="button"
           role="tab"
+          id="tab-timeline"
           aria-selected={activeTab === 'timeline'}
+          aria-controls="panel-timeline"
+          tabIndex={activeTab === 'timeline' ? 0 : -1}
           className={`${styles.tabBtn} ${activeTab === 'timeline' ? styles.tabActive : ''}`}
           onClick={() => onTabChange('timeline')}
         >
@@ -84,7 +93,10 @@ export function LeftPane({
         <button
           type="button"
           role="tab"
+          id="tab-vendors"
           aria-selected={activeTab === 'vendors'}
+          aria-controls="panel-vendors"
+          tabIndex={activeTab === 'vendors' ? 0 : -1}
           className={`${styles.tabBtn} ${activeTab === 'vendors' ? styles.tabActive : ''}`}
           onClick={() => onTabChange('vendors')}
         >
@@ -98,7 +110,10 @@ export function LeftPane({
         <button
           type="button"
           role="tab"
+          id="tab-ideas"
           aria-selected={activeTab === 'ideas'}
+          aria-controls="panel-ideas"
+          tabIndex={activeTab === 'ideas' ? 0 : -1}
           className={`${styles.tabBtn} ${activeTab === 'ideas' ? styles.tabActive : ''}`}
           onClick={() => onTabChange('ideas')}
         >
@@ -107,7 +122,10 @@ export function LeftPane({
         <button
           type="button"
           role="tab"
+          id="tab-questions"
           aria-selected={activeTab === 'questions'}
+          aria-controls="panel-questions"
+          tabIndex={activeTab === 'questions' ? 0 : -1}
           className={`${styles.tabBtn} ${activeTab === 'questions' ? styles.tabActive : ''}`}
           onClick={() => onTabChange('questions')}
         >
@@ -119,7 +137,13 @@ export function LeftPane({
       <div className={styles.content}>
         {/* TAB 1: OVERVIEW & THEME */}
         {activeTab === 'overview' && (
-          <div className={styles.tabPanel} role="tabpanel">
+          <div
+            className={styles.tabPanel}
+            role="tabpanel"
+            id="panel-overview"
+            aria-labelledby="tab-overview"
+            tabIndex={0}
+          >
             <section className={styles.card}>
               <h2 className={styles.cardTitle}>Executive Vision</h2>
               <p className={styles.summaryText}>{plan.executive_summary}</p>
@@ -202,7 +226,13 @@ export function LeftPane({
 
         {/* TAB 2: BUDGET BREAKDOWN */}
         {activeTab === 'budget' && (
-          <div className={styles.tabPanel} role="tabpanel">
+          <div
+            className={styles.tabPanel}
+            role="tabpanel"
+            id="panel-budget"
+            aria-labelledby="tab-budget"
+            tabIndex={0}
+          >
             {/* Budget Health Header */}
             {reconciledBudget && (
               <div className={styles.healthBanner}>
@@ -295,7 +325,13 @@ export function LeftPane({
 
         {/* TAB 3: TIMELINE & DAY-OF */}
         {activeTab === 'timeline' && (
-          <div className={styles.tabPanel} role="tabpanel">
+          <div
+            className={styles.tabPanel}
+            role="tabpanel"
+            id="panel-timeline"
+            aria-labelledby="tab-timeline"
+            tabIndex={0}
+          >
             {/* Phased Roadmap */}
             <section className={styles.card}>
               <h2 className={styles.cardTitle}>Phased Preparation Roadmap</h2>
@@ -356,7 +392,13 @@ export function LeftPane({
 
         {/* TAB 4: VENDOR CHECKLISTS */}
         {activeTab === 'vendors' && (
-          <div className={styles.tabPanel} role="tabpanel">
+          <div
+            className={styles.tabPanel}
+            role="tabpanel"
+            id="panel-vendors"
+            aria-labelledby="tab-vendors"
+            tabIndex={0}
+          >
             {/* Overall Progress */}
             {checklistProgress && (
               <div className={styles.progressCard}>
@@ -364,7 +406,14 @@ export function LeftPane({
                   <span className={styles.progressLabel}>Overall Checklist Completion</span>
                   <span className={styles.progressPercent}>{checklistProgress.percentComplete}%</span>
                 </div>
-                <div className={styles.progressBarTrack}>
+                <div
+                  className={styles.progressBarTrack}
+                  role="progressbar"
+                  aria-valuenow={checklistProgress.percentComplete}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label="Overall Checklist Completion"
+                >
                   <div
                     className={styles.progressBarFill}
                     style={{ width: `${checklistProgress.percentComplete}%` }}
@@ -430,7 +479,13 @@ export function LeftPane({
 
         {/* TAB 5: CREATIVE IDEAS */}
         {activeTab === 'ideas' && (
-          <div className={styles.tabPanel} role="tabpanel">
+          <div
+            className={styles.tabPanel}
+            role="tabpanel"
+            id="panel-ideas"
+            aria-labelledby="tab-ideas"
+            tabIndex={0}
+          >
             <div className={styles.ideasGrid}>
               {plan.personalized_ideas.map(idea => (
                 <div key={idea.id} className={styles.ideaCard}>
@@ -458,7 +513,13 @@ export function LeftPane({
 
         {/* TAB 6: VENDOR QUESTIONS */}
         {activeTab === 'questions' && (
-          <div className={styles.tabPanel} role="tabpanel">
+          <div
+            className={styles.tabPanel}
+            role="tabpanel"
+            id="panel-questions"
+            aria-labelledby="tab-questions"
+            tabIndex={0}
+          >
             <section className={styles.card}>
               <h2 className={styles.cardTitle}>Vendor Interview Questions</h2>
               <p className={styles.subHeading}>

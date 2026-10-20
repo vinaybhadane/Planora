@@ -215,7 +215,7 @@ export default function App() {
 
       {/* Error Banner */}
       {error && (
-        <div role="alert" className="error-banner">
+        <div role="alert" aria-live="assertive" className="error-banner">
           <div className="error-content">
             <span className="error-icon" aria-hidden="true">⚠️</span>
             <p className="error-text">{error}</p>
@@ -224,7 +224,7 @@ export default function App() {
             type="button"
             className="error-dismiss"
             onClick={() => setError(null)}
-            aria-label="Dismiss message"
+            aria-label="Dismiss error notification"
           >
             ✕
           </button>
@@ -233,26 +233,30 @@ export default function App() {
 
       {/* STAGE 1: LANDING & CONFIGURATOR */}
       {stage === 'landing' && (
-        <LandingScreen
-          onStartLivePlan={handleStartLivePlan}
-          onExploreDemo={handleExploreDemo}
-          isLoading={false}
-        />
+        <main id="main-content" tabIndex={-1} style={{ outline: 'none' }}>
+          <LandingScreen
+            onStartLivePlan={handleStartLivePlan}
+            onExploreDemo={handleExploreDemo}
+            isLoading={false}
+          />
+        </main>
       )}
 
       {/* STAGE 2: SYNTHESIZING LOADER */}
       {stage === 'synthesizing' && (
-        <div className="synthesizing-container" role="status" aria-live="polite">
-          <div className="synthesizing-card">
-            <div className="spinner" aria-hidden="true" />
-            <h2 className="synthesizing-title">
-              Synthesizing Your {eventType.toUpperCase()} Plan
-            </h2>
-            <p className="synthesizing-desc">
-              Gemini AI is assembling budget allocations, calculating contingency reserves, building the phased timeline, and cross-checking vendor checklists...
-            </p>
+        <main id="main-content" tabIndex={-1} style={{ outline: 'none' }}>
+          <div className="synthesizing-container" role="status" aria-live="polite">
+            <div className="synthesizing-card">
+              <div className="spinner" aria-hidden="true" />
+              <h2 className="synthesizing-title">
+                Synthesizing Your {eventType.toUpperCase()} Plan
+              </h2>
+              <p className="synthesizing-desc">
+                Gemini AI is assembling budget allocations, calculating contingency reserves, building the phased timeline, and cross-checking vendor checklists...
+              </p>
+            </div>
           </div>
-        </div>
+        </main>
       )}
 
       {/* STAGE 3: INTERACTIVE DASHBOARD */}

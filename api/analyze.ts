@@ -24,6 +24,8 @@ import { GEMINI_MODEL, GEMINI_FALLBACK_MODELS } from '../src/lib/geminiConfig.js
 export type VercelRequest = IncomingMessage & {
   body?: Record<string, unknown>;
   query?: Record<string, string | string[]>;
+  readable?: boolean;
+  resume?: () => void;
 };
 
 export type VercelResponse = ServerResponse & {
@@ -48,11 +50,23 @@ export const MAX_GUEST_COUNT = 50000;
 // Gemini Client Singleton
 // ---------------------------------------------------------------------------
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let customGeminiClient: any = null;
+export interface MinimalGeminiClient {
+  models: {
+    generateContent: (args: {
+      model: string;
+      contents: Array<{ role: string; parts: Array<{ text: string }> }>;
+      config?: {
+        systemInstruction?: string;
+        responseMimeType?: string;
+        responseSchema?: unknown;
+      };
+    }) => Promise<{ text?: string }>;
+  };
+}
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function setGeminiClientForTesting(client: any): void {
+let customGeminiClient: MinimalGeminiClient | null = null;
+
+export function setGeminiClientForTesting(client: MinimalGeminiClient | null): void {
   customGeminiClient = client;
 }
 
@@ -80,7 +94,7 @@ function ensureEnvLoaded(): void {
   }
 }
 
-function getGeminiClient(): GoogleGenAI {
+function getGeminiClient(): GoogleGenAI | MinimalGeminiClient {
   if (customGeminiClient) {
     return customGeminiClient;
   }
@@ -221,13 +235,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
   try {
     let body = req.body;
     if (!body || typeof body !== 'object' || Object.keys(body).length === 0) {
-      if ((req as any).readable) {
+      if (req.readable) {
         const raw = await new Promise<string>((resolve) => {
           let str = '';
           req.on('data', chunk => { str += chunk; });
           req.on('end', () => resolve(str));
           req.on('error', () => resolve(''));
-          (req as any).resume?.();
+          req.resume?.();
         });
         if (raw) {
           try {
@@ -316,7 +330,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse): 
         }
       } catch (modelErr: unknown) {
         lastError = modelErr;
-        console.warn(`[api/analyze] Model ${model} generation failed, trying next candidate if available:`, (modelErr as any)?.message ?? modelErr);
+        const msg = modelErr instanceof Error ? modelErr.message : String(modelErr);
+        console.warn(`[api/analyze] Model ${model} generation failed, trying next candidate if available:`, msg);
       }
     }
 

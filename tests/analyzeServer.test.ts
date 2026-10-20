@@ -25,7 +25,7 @@ function createMockReqRes(method: string, body?: Record<string, unknown>) {
   } as unknown as VercelRequest;
 
   let statusCode = 200;
-  let jsonBody: any = null;
+  let jsonBody: Record<string, unknown> = {};
   const headers: Record<string, string> = {};
 
   const res = {
@@ -34,7 +34,7 @@ function createMockReqRes(method: string, body?: Record<string, unknown>) {
       return res;
     },
     json(data: unknown) {
-      jsonBody = data;
+      jsonBody = (data as Record<string, unknown>) ?? {};
     },
     setHeader(name: string, value: string) {
       headers[name] = value;

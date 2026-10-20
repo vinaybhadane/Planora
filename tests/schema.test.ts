@@ -94,7 +94,7 @@ describe('PLAN_SCHEMA Validator', () => {
         {
           risk: 'Weather',
           mitigation: 'Tent',
-          severity: 'catastrophic' as any,
+          severity: 'catastrophic' as unknown as 'low' | 'medium' | 'high',
         },
       ],
     };

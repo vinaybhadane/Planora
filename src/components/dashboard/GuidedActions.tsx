@@ -45,6 +45,7 @@ export function GuidedActions({
             onSimulateTrim();
           }}
           title="Simulate a 10% cost-saving reduction across categories"
+          aria-label="Simulate a 10% cost-saving reduction across categories"
         >
           💰 Simulate 10% Savings
         </button>
@@ -54,6 +55,7 @@ export function GuidedActions({
           className={styles.chip}
           onClick={() => onSelectTab('vendors')}
           title="View vendor contract watchouts and critical items"
+          aria-label="View vendor contract watchouts and critical items"
         >
           ⚠️ Vendor Contract Watchouts
         </button>
@@ -63,6 +65,7 @@ export function GuidedActions({
           className={styles.chip}
           onClick={() => onSelectTab('timeline')}
           title="View hour-by-hour day of schedule"
+          aria-label="View hour-by-hour day of schedule"
         >
           ⏱️ Day-Of Run of Show
         </button>
@@ -72,6 +75,7 @@ export function GuidedActions({
           className={styles.chip}
           onClick={handleCopy}
           title="Copy vendor interview questions to clipboard"
+          aria-label="Copy vendor interview questions to clipboard"
         >
           {copied ? '✅ Questions Copied!' : '📋 Copy Vendor Q&A'}
         </button>
@@ -81,6 +85,7 @@ export function GuidedActions({
           className={styles.chip}
           onClick={onExport}
           title="Print or export the full planning dossier"
+          aria-label="Print or export the full planning dossier"
         >
           🖨️ Print / Export Dossier
         </button>

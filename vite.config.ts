@@ -43,9 +43,9 @@ function localApiPlugin(): Plugin {
               req.resume?.();
             });
             try {
-              (req as any).body = rawBody ? JSON.parse(rawBody) : {};
+              (req as unknown as { body: Record<string, unknown> }).body = rawBody ? JSON.parse(rawBody) : {};
             } catch {
-              (req as any).body = {};
+              (req as unknown as { body: Record<string, unknown> }).body = {};
             }
           }
 
@@ -61,7 +61,10 @@ function localApiPlugin(): Plugin {
           });
 
           try {
-            await handler(req as any, adaptedRes as any);
+            await handler(
+              req as unknown as Parameters<typeof handler>[0],
+              adaptedRes as unknown as Parameters<typeof handler>[1]
+            );
           } catch (err: unknown) {
             console.error('[vite:local-api error]:', err);
             res.statusCode = 500;

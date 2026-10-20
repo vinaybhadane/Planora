@@ -85,6 +85,7 @@ export function LandingScreen({ onStartLivePlan, onExploreDemo, isLoading = fals
                     type="button"
                     role="radio"
                     aria-checked={isSelected}
+                    tabIndex={isSelected ? 0 : -1}
                     className={`${styles.eventTypeCard} ${isSelected ? styles.cardActive : ''}`}
                     onClick={() => handleEventTypeSelect(opt.id)}
                   >
@@ -112,17 +113,19 @@ export function LandingScreen({ onStartLivePlan, onExploreDemo, isLoading = fals
                   min={1}
                   max={50000}
                   value={guestCount}
+                  aria-required="true"
                   onChange={e => setGuestCount(Math.max(1, parseInt(e.target.value) || 1))}
                   className={styles.textInput}
                   required
                 />
                 <span className={styles.inputSuffix}>guests</span>
               </div>
-              <div className={styles.presetChips}>
+              <div className={styles.presetChips} role="group" aria-label="Guest count presets">
                 {[30, 75, 120, 250].map(cnt => (
                   <button
                     key={cnt}
                     type="button"
+                    aria-label={`Select ${cnt} guests`}
                     className={`${styles.chip} ${guestCount === cnt ? styles.chipActive : ''}`}
                     onClick={() => setGuestCount(cnt)}
                   >
@@ -145,16 +148,18 @@ export function LandingScreen({ onStartLivePlan, onExploreDemo, isLoading = fals
                   max={5000000}
                   step={500}
                   value={totalBudget}
+                  aria-required="true"
                   onChange={e => setTotalBudget(Math.max(100, parseInt(e.target.value) || 100))}
                   className={`${styles.textInput} ${styles.inputWithPrefix}`}
                   required
                 />
               </div>
-              <div className={styles.presetChips}>
+              <div className={styles.presetChips} role="group" aria-label="Budget presets">
                 {[5000, 15000, 30000, 60000].map(bg => (
                   <button
                     key={bg}
                     type="button"
+                    aria-label={`Select $${bg.toLocaleString()} budget`}
                     className={`${styles.chip} ${totalBudget === bg ? styles.chipActive : ''}`}
                     onClick={() => setTotalBudget(bg)}
                   >
@@ -179,6 +184,7 @@ export function LandingScreen({ onStartLivePlan, onExploreDemo, isLoading = fals
                     type="button"
                     role="radio"
                     aria-checked={isSelected}
+                    tabIndex={isSelected ? 0 : -1}
                     className={`${styles.vibeCard} ${isSelected ? styles.vibeActive : ''}`}
                     onClick={() => setSelectedVibe(vibe.id)}
                   >
@@ -271,6 +277,7 @@ export function LandingScreen({ onStartLivePlan, onExploreDemo, isLoading = fals
               type="button"
               className={`${styles.demoBtn} btn-secondary`}
               onClick={() => onExploreDemo('wedding')}
+              aria-label="Explore Wedding Plan: Vineyard Harmony Napa Estate"
             >
               Explore Wedding Plan →
             </button>
@@ -288,6 +295,7 @@ export function LandingScreen({ onStartLivePlan, onExploreDemo, isLoading = fals
               type="button"
               className={`${styles.demoBtn} btn-secondary`}
               onClick={() => onExploreDemo('birthday')}
+              aria-label="Explore Birthday Plan: Neon Nostalgia 30th Birthday"
             >
               Explore Birthday Plan →
             </button>
@@ -305,6 +313,7 @@ export function LandingScreen({ onStartLivePlan, onExploreDemo, isLoading = fals
               type="button"
               className={`${styles.demoBtn} btn-secondary`}
               onClick={() => onExploreDemo('community')}
+              aria-label="Explore Community Plan: Sunset Green Arts Festival"
             >
               Explore Community Plan →
             </button>

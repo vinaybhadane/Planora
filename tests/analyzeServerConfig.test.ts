@@ -4,7 +4,7 @@ import handler, { setGeminiClientForTesting } from '../api/analyze';
 
 vi.mock('@google/genai', () => {
   return {
-    GoogleGenAI: vi.fn().mockImplementation(function (this: any) {
+    GoogleGenAI: vi.fn().mockImplementation(function () {
       return {
         models: {
           generateContent: vi.fn().mockResolvedValue({
@@ -55,8 +55,13 @@ describe('api/analyze.ts — Production Config', () => {
     const req = {
       method: 'POST',
       body: { eventType: 'wedding', guestCount: 50, totalBudget: 10000 },
-    } as any;
-    const res = { status: () => res, json: () => res, setHeader: () => res, end: () => {} } as any;
+    } as unknown as import('../api/analyze').VercelRequest;
+    const res = {
+      status: () => res,
+      json: () => res,
+      setHeader: () => res,
+      end: () => {},
+    } as unknown as import('../api/analyze').VercelResponse;
 
     await handler(req, res);
 

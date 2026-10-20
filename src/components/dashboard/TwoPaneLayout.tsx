@@ -8,7 +8,7 @@ interface TwoPaneLayoutProps {
 
 export function TwoPaneLayout({ leftPane, rightPane }: TwoPaneLayoutProps) {
   return (
-    <main className={styles.container} id="main-content">
+    <main className={styles.container} id="main-content" tabIndex={-1} style={{ outline: 'none' }}>
       <div className={styles.leftPane}>{leftPane}</div>
       <div className={styles.rightPane}>{rightPane}</div>
     </main>

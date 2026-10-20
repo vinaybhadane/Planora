@@ -62,6 +62,9 @@ export function EventContextSelector({
       role="dialog"
       aria-modal="true"
       aria-labelledby="context-selector-title"
+      onKeyDown={e => {
+        if (e.key === 'Escape') onCancel();
+      }}
       onClick={e => {
         if (e.target === e.currentTarget) onCancel();
       }}
@@ -84,14 +87,17 @@ export function EventContextSelector({
         <form onSubmit={handleSubmit} className={styles.body}>
           {/* Event Type */}
           <div className={styles.section}>
-            <label className={styles.label}>Event Type</label>
-            <div className={styles.typeGrid}>
+            <label id="ctx-event-type-label" className={styles.label}>Event Type</label>
+            <div className={styles.typeGrid} role="radiogroup" aria-labelledby="ctx-event-type-label">
               {EVENT_TYPE_OPTIONS.map(opt => {
                 const isSelected = eventType === opt.id;
                 return (
                   <button
                     key={opt.id}
                     type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    tabIndex={isSelected ? 0 : -1}
                     className={`${styles.typeOption} ${isSelected ? styles.typeSelected : ''}`}
                     onClick={() => handleTypeChange(opt.id)}
                   >
@@ -137,14 +143,17 @@ export function EventContextSelector({
 
           {/* Vibe Selection */}
           <div className={styles.section}>
-            <label className={styles.label}>Aesthetic / Vibe</label>
-            <div className={styles.vibeGrid}>
+            <label id="ctx-vibe-label" className={styles.label}>Aesthetic / Vibe</label>
+            <div className={styles.vibeGrid} role="radiogroup" aria-labelledby="ctx-vibe-label">
               {VIBE_OPTIONS.map(v => {
                 const isSelected = vibe === v.id;
                 return (
                   <button
                     key={v.id}
                     type="button"
+                    role="radio"
+                    aria-checked={isSelected}
+                    tabIndex={isSelected ? 0 : -1}
                     className={`${styles.vibePill} ${isSelected ? styles.vibeSelected : ''}`}
                     onClick={() => setVibe(v.id)}
                   >

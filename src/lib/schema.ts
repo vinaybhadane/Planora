@@ -368,15 +368,25 @@ export const PLAN_SCHEMA = {
 
 let validatePlanFn: ValidateFunction | null = null;
 
+type AjvConstructorType = new (opts?: Record<string, unknown>) => {
+  compile: (schema: unknown) => ValidateFunction;
+};
+type AddFormatsFnType = (ajv: unknown) => void;
+
 function getPlanValidator(): ValidateFunction {
-  if (!validatePlanFn) {
-    const AjvConstructor = ((Ajv as any).default ?? Ajv) as typeof Ajv;
-    const addFormatsFn = ((addFormats as any).default ?? addFormats) as typeof addFormats;
-    const ajv = new (AjvConstructor as any)({ allErrors: true });
-    (addFormatsFn as any)(ajv);
-    validatePlanFn = ajv.compile(PLAN_SCHEMA);
+  if (validatePlanFn) {
+    return validatePlanFn;
   }
-  return validatePlanFn as ValidateFunction;
+  const AjvConstructor = ((Ajv as unknown as { default?: AjvConstructorType }).default ??
+    Ajv) as unknown as AjvConstructorType;
+  const addFormatsFn = ((addFormats as unknown as { default?: AddFormatsFnType }).default ??
+    addFormats) as unknown as AddFormatsFnType;
+
+  const ajvInstance = new AjvConstructor({ allErrors: true });
+  addFormatsFn(ajvInstance);
+  const compiled = ajvInstance.compile(PLAN_SCHEMA);
+  validatePlanFn = compiled;
+  return compiled;
 }
 
 
